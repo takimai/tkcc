@@ -1,6 +1,10 @@
-CFLAGS=-std=c11 -g -static
+CFLAGS=-std=c11 -g -static -fno-common
+SRCS=$(wildcard *.c)
+OBJS=$(SRCS:.c=.o)
 
-tkcc: tkcc.c
+tkcc: $(OBJS)
+	$(CC) -o $@ $(OBJS) $(LDFLAGS) 
+$(OBJS): tkcc.h
 
 test: tkcc
 	./test.sh
