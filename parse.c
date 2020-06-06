@@ -24,16 +24,6 @@ Node *new_num(int val) {
   return node;
 }
 
-Node *program();
-
-Node *stmt();
-Node *expr();
-Node *equality();
-Node *relational();
-Node *add();
-Node *mul();
-Node *unary();
-Node *primary();
 
 Node *program() {
   Node head = {};
@@ -45,7 +35,6 @@ Node *program() {
   }
 
   return head.next;
-
 }
 
 // stmt = "return" expr ";"
@@ -56,7 +45,7 @@ Node *stmt()  {
     return node;
   }
   
-  Node *node = expr();
+  Node *node = new_unary(ND_EXPR_STMT, expr());
   expect(";");
   return node;
 }

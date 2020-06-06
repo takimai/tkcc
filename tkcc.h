@@ -40,16 +40,17 @@ extern Token *token;
 // parse.c
 
 typedef enum {
-  ND_ADD,   // + 
-  ND_SUB,   // -
-  ND_MUL,   // *
-  ND_DIV,   // /
-  ND_EQ,    // ==
-  ND_NE,    // !=
-  ND_LT,    // <
-  ND_LE,    // <=
-  ND_RETURN, // "return"
-  ND_NUM,   // 整数
+  ND_ADD,       // + 
+  ND_SUB,       // -
+  ND_MUL,       // *
+  ND_DIV,       // /
+  ND_EQ,        // ==
+  ND_NE,        // !=
+  ND_LT,        // <
+  ND_LE,        // <=
+  ND_RETURN,    // "return"
+  ND_EXPR_STMT, // Expression statement
+  ND_NUM,       // 整数
 }NodeKind;
 
 typedef struct Node Node;
