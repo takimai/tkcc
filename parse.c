@@ -4,13 +4,17 @@ Node *new_node(NodeKind kind) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = kind;
   return node;
-
 }
 
 Node *new_binary(NodeKind kind, Node *lhs, Node *rhs) {
   Node *node = new_node(kind);
   node->lhs = lhs;
   node->rhs = rhs;
+  return node;
+}
+Node *new_unary(NodeKind kind, Node *expr)  {
+  Node *node = new_node(kind);
+  node->lhs = expr;
   return node;
 }
 
@@ -20,6 +24,9 @@ Node *new_num(int val) {
   return node;
 }
 
+Node *program();
+
+Node *stmt();
 Node *expr();
 Node *equality();
 Node *relational();
@@ -27,6 +34,32 @@ Node *add();
 Node *mul();
 Node *unary();
 Node *primary();
+
+Node *program() {
+  Node head = {};
+  Node *cur = &head;
+ 
+  while (!at_eof())  {
+    cur->next = stmt();
+    cur = cur->next;
+  }
+
+  return head.next;
+
+}
+
+// stmt = "return" expr ";"
+Node *stmt()  {
+  if (consume("return")) {
+    Node *node = new_unary(ND_RETURN, expr());
+    expect(";");
+    return node;
+  }
+  
+  Node *node = expr();
+  expect(";");
+  return node;
+}
 
 Node *expr() {
   return equality();

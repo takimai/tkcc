@@ -1,4 +1,3 @@
 tkcc
-tmp
-tmp.s
-core
+tmp*
+*.o

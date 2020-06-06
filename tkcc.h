@@ -40,25 +40,37 @@ extern Token *token;
 // parse.c
 
 typedef enum {
-  ND_ADD, // + 
-  ND_SUB, // -
-  ND_MUL, // *
-  ND_DIV, // /
-  ND_EQ,  // ==
-  ND_NE,  // !=
-  ND_LT,  // <
-  ND_LE,  // <=
-  ND_NUM, // 整数
+  ND_ADD,   // + 
+  ND_SUB,   // -
+  ND_MUL,   // *
+  ND_DIV,   // /
+  ND_EQ,    // ==
+  ND_NE,    // !=
+  ND_LT,    // <
+  ND_LE,    // <=
+  ND_RETURN, // "return"
+  ND_NUM,   // 整数
 }NodeKind;
 
 typedef struct Node Node;
 
 struct Node {
   NodeKind kind; // ノードの型
+  Node *next;
   Node *lhs;     // 左辺
   Node *rhs;     // 右辺
   int val;       // kindがND_NUMの場合のみ使う
 };
 
-Node *expr(void);
+
+Node *program();
+Node *stmt();
+Node *expr();
+Node *equality();
+Node *relational();
+Node *add();
+Node *mul();
+Node *unary();
+Node *primary();
+
 void codegen(Node *node);
