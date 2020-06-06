@@ -32,6 +32,15 @@ bool consume(char *op) {
     return true;
 }
 
+Token *consume_ident() {
+  if (token->kind != TK_IDENT)
+    return NULL;
+  Token *t = token;
+  token = token->next;
+  return t;
+}
+
+
 void expect(char *op) {
 
   if (token->kind != TK_RESERVED || strlen(op) != token->len ||
@@ -100,7 +109,10 @@ Token *tokenize() {
       cur = new_token(TK_RESERVED, cur, p, 6);
       p += 6;
       continue;
+    }
 
+    if ('a' <= *p && *p <= 'z') {
+      cur = new_token(TK_IDENT, cur, p++, 1);
     }
 
     if (startswith(p, "==") || startswith(p, "!=") ||

@@ -24,6 +24,12 @@ Node *new_num(int val) {
   return node;
 }
 
+Node *new_var_node(char name) {
+  Node *node = new_node(ND_VAR);
+  node->name = name;
+  return node;
+}
+
 
 Node *program() {
   Node head = {};
@@ -51,7 +57,14 @@ Node *stmt()  {
 }
 
 Node *expr() {
-  return equality();
+  return assign();
+}
+
+Node *assign() {
+  Node *node = equality();
+  if(consume("="))
+    node = new_binary(ND_ASSIGN, node, assign());
+  return node;
 }
 
 Node *equality() {
@@ -128,5 +141,9 @@ Node *primary() {
     return node;
   }
   
+  Token *tok = consume_ident();
+  if (tok)
+    return new_var_node(*tok->str);
+
   return new_num(expect_number());
 }

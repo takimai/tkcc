@@ -8,24 +8,26 @@
 // tokenize.c
 
 typedef enum {
-  TK_RESERVED, // 記号
-  TK_NUM,      // 整数トークン
-  TK_EOF,      // 入力の終わりを表すトークン
+  TK_RESERVED, // Keywords or punctuators
+  TK_IDENT,     // Indentifiers
+  TK_NUM,      // Integer Literals
+  TK_EOF,      // End-of-file markers
 } TokenKind;
 
 typedef struct Token Token;
 //トークン型
 struct Token {
-  TokenKind kind;  // トークンの型
-  Token *next;     // 次の入力トークン
-  int val;         // kindがTK_NUMの場合、その数値
-  char *str;       // トークン文字列
-  int len;         // トークンの長さ
+  TokenKind kind;  // Token kind
+  Token *next;     // Next token
+  int val;         // If kind is TK_NUM, its value
+  char *str;       // Token string
+  int len;         // Token length
 };
 
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
 bool consume(char *op);
+Token *consume_ident(void);
 void expect(char *op);
 int expect_number(void);
 bool at_eof(void);
@@ -48,9 +50,11 @@ typedef enum {
   ND_NE,        // !=
   ND_LT,        // <
   ND_LE,        // <=
+  ND_ASSIGN,     // =
   ND_RETURN,    // "return"
   ND_EXPR_STMT, // Expression statement
-  ND_NUM,       // 整数
+  ND_VAR,       // Variable
+  ND_NUM,       // Integer
 }NodeKind;
 
 typedef struct Node Node;
@@ -58,15 +62,18 @@ typedef struct Node Node;
 struct Node {
   NodeKind kind; // ノードの型
   Node *next;
-  Node *lhs;     // 左辺
-  Node *rhs;     // 右辺
-  int val;       // kindがND_NUMの場合のみ使う
+  Node *lhs;     // Left-hand side
+  Node *rhs;     // Right-hand side
+  char name;     // Use if kind==ND_VAR
+  int val;       // Use if kind==ND_NUM
+
 };
 
 
 Node *program();
 Node *stmt();
 Node *expr();
+Node *assign();
 Node *equality();
 Node *relational();
 Node *add();
