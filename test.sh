@@ -4,7 +4,7 @@ assert() {
   input="$2"
 
   ./tkcc "$input" > tmp.s
-  gcc -o tmp tmp.s
+  gcc -g3 -o tmp tmp.s
   ./tmp
   actual="$?"
 
@@ -55,5 +55,10 @@ assert 3 '1; 2; return 3;'
 
 assert 3 'foo=3; return foo;'
 assert 8 'foo123=3; bar=5; return foo123+bar;'
+
+assert 3 'if (0) return 2; return 3;'
+assert 3 'if (1-1) return 2; return 3;'
+assert 2 'if (1) return 2; return 3;'
+assert 2 'if (2-1) return 2; return 3;'
 
 echo OK
