@@ -33,6 +33,11 @@ void gen(Node *node) {
     gen(node->lhs);
     printf("  add rsp, 8\n");
     return;
+
+  case ND_BLOCK:
+    for (Node *n = node->body; n; n = n->next)
+      gen(n);
+    return;
   case ND_RETURN:
     gen(node->lhs);
     printf("  pop rax\n");
