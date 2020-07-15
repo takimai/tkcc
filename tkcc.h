@@ -87,6 +87,7 @@ struct Node {
   Node *body;
 
   char *funcname;
+  Node *args;
 
   Var *var;     // Use if kind==ND_VAR
   int val;       // Use if kind==ND_NUM
