@@ -1,10 +1,15 @@
 #!/bin/bash
+cat <<EOF | gcc -xc -c -o tmp2.o -
+int ret3() {return 3;}
+int ret5() {return 5;}
+EOF
+
 assert() {
   expected="$1"
   input="$2"
 
   ./tkcc "$input" > tmp.s
-  gcc -g3 -o tmp tmp.s
+  gcc -g3 -o tmp tmp.s tmp2.o
   ./tmp
   actual="$?"
 
@@ -65,4 +70,10 @@ assert 10 'i=0; while(i<10) i=i+1; return i;'
 assert 55 'i=0; j=0; while(i<=10) {j=i+j; i=i+1;} return j;'
 assert 55 'i=0; j=0; for (i=0; i<=10; i=i+1) j=i+j; return j;'
 assert 3 'for (;;) return 3; return 5;'
+
+assert 3 'return ret3();'
+assert 5 'return ret5();'
+
+
+
 echo OK
