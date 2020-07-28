@@ -31,6 +31,7 @@ bool consume(char *op);
 Token *consume_ident(void);
 void expect(char *op);
 int expect_number(void);
+char *expect_ident(void);
 bool at_eof(void);
 
 Token *new_token(TokenKind kind, Token *cur, char *str, int len);
@@ -96,21 +97,24 @@ struct Node {
 
 typedef struct Function Function;
 struct Function{
+  Function *next;
+  char *name;
   Node *node;
   Var *locals;
   int stack_size;
 };
 
-Function *program();
+Function *program(void);
+Function *function(void);
 
-Node *stmt();
-Node *expr();
-Node *assign();
-Node *equality();
-Node *relational();
-Node *add();
-Node *mul();
-Node *unary();
-Node *primary();
+Node *stmt(void);
+Node *expr(void);
+Node *assign(void);
+Node *equality(void);
+Node *relational(void);
+Node *add(void);
+Node *mul(void);
+Node *unary(void);
+Node *primary(void);
 
 void codegen(Function *prog);
