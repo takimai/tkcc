@@ -9,6 +9,17 @@ int add6(int a, int b, int c, int d, int e, int f)
 {
   return a+b+c+d+e+f;
 }
+int fib(int n) 
+{
+  if (n == 1)
+    return 1;
+  else if (n == 2)
+    return 1;
+  else 
+    return fib(n-1) + fib(n-2);
+}
+
+
 
 EOF
 
@@ -84,5 +95,9 @@ assert 5 'main(){ return ret5(); }'
 assert 8 'main(){ return add(3, 5); }'
 assert 2 'main(){ return sub(5, 3); }'
 assert 21 'main(){ return add6(1, 2, 3, 4, 5, 6);}'
+assert 2 'main(){ return fib(3);}'
+assert 55 'main(){ return fib(10);}'
+assert 233 'main(){ return fib(13);}'
+
 
 echo OK

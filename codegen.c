@@ -212,5 +212,4 @@ void codegen(Function *prog) {
   printf("  pop rbp\n");
   printf("  ret\n");
   }
-
 }
